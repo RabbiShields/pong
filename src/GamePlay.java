@@ -4,23 +4,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.Timer;
 
 
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
-    private boolean play = false;
-    private Timer timer;
-
-
-    private int leftPaddlePos = 310;
-    private int rightPaddlePos = 310;
     private static int leftPlayerScore = 0;
     private static int rightPlayerScore = 0;
-
+    private boolean play = false;
+    private Timer timer;
+    private int leftPaddlePos = 310;
+    private int rightPaddlePos = 310;
     private int ballPosX = 320;
     private int ballPosY = 220;
-    private int ballDirX = 3;
-    private int ballDirY = 2;
+    private int ballDirX = 4;
+    private int ballDirY = 1;
     private String scoreDisplay = 0 + " - " + 0;
 
 
@@ -28,7 +24,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        int delay = 4;
+        int delay = 12;
         timer = new Timer(delay, this);
         timer.start();
     }
@@ -54,7 +50,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         //ball
         g.setColor(Color.red);
         g.fillRect(ballPosX, ballPosY, 20, 20);
-        g.drawString(scoreDisplay, 350,10);
+        g.drawString(scoreDisplay, 350, 10);
 
         g.dispose();
     }
@@ -77,7 +73,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
         // triggers score and reset
         if (ballPosX >= 675) leftPlayerScore = score(leftPlayerScore);
-        if (ballPosX <= 5  ) rightPlayerScore = score(rightPlayerScore);
+        if (ballPosX <= 5) rightPlayerScore = score(rightPlayerScore);
 
         // makes the ball bounce off the paddles
         if (ballPosX >= 658 && rightPaddlePos - 10 <= ballPosY && ballPosY <= rightPaddlePos + 90)
@@ -88,18 +84,20 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     }
 
     private int score(int scorer) {
-            scorer++;
-            ballPosX = 320;
-            ballPosY = 320;
-            ballDirX *= -1;
-            play = false;
+        scorer++;
+        ballPosX = 320;
+        ballPosY = 320;
+        ballDirX *= -1;
+        play = false;
         return scorer;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getExtendedKeyCode() == KeyEvent.VK_UP) rightPaddlePos = moveUp(rightPaddlePos);
-        if (e.getExtendedKeyCode() == KeyEvent.VK_W) leftPaddlePos = moveUp(leftPaddlePos);
+        if (e.getExtendedKeyCode() == KeyEvent.VK_UP)
+            rightPaddlePos = moveUp(rightPaddlePos);
+        if (e.getExtendedKeyCode() == KeyEvent.VK_W)
+            leftPaddlePos = moveUp(leftPaddlePos);
         if (e.getExtendedKeyCode() == KeyEvent.VK_DOWN)
             rightPaddlePos = moveDown(rightPaddlePos);
         if (e.getExtendedKeyCode() == KeyEvent.VK_S)
